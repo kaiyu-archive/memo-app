@@ -1,0 +1,228 @@
+/*
+////////////////////////////////////////
+reset.css を読み込んで全てのスタイルをなくす
+////////////////////////////////////////
+*/
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/*
+////////////////////////////////////////
+reset.css では足りない初期化を追加
+////////////////////////////////////////
+*/
+
+/* 全てに box-sizing: border-box; を適用 */
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+/* 画像に関する初期設定 */
+img {
+    /* 大きい画像がはみ出さないように */
+    max-width: 100%;
+    /* 画像周りの無駄なスペースができないように */
+    vertical-align: bottom;
+}
+
+[data-whatinput="mouse"] *:focus,
+[data-whatinput="touch"] *:focus {
+    outline: none;
+}
+
+/*
+////////////////////////////////////////
+初期設定
+////////////////////////////////////////
+*/
+
+body {
+    padding: 32px 0;
+    color: #56564f;
+}
+
+/*
+////////////////////////////////////////
+以下に本サイト向けのCSSを書く
+////////////////////////////////////////
+*/
+
+body {
+    line-height: 1.8;
+    background-color: #eff2f7;
+}
+
+pre{
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+button,
+input,
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+}
+
+h1 {
+    font-size: 2em;
+    font-weight: bold;
+    line-height: 1.4;
+
+    margin: .67em 0;
+    padding-bottom: .40em;
+
+    text-align: center;
+
+    border-bottom: solid 2px lightgrey;
+}
+
+h2
+{
+    font-size: 1.50em;
+    font-weight: bold;
+    line-height: 1.4;
+
+    margin: .67em 0;
+}
+
+ul li {
+    margin-left: 2.00em;
+
+    list-style-type: disc;
+}
+
+label {
+    font-weight: bold;
+
+    display: inline-block;
+
+    width: 104px;
+    padding-right: 8px;
+
+    vertical-align: middle;
+}
+
+input[type='text'],
+textarea {
+    width: calc(100% - 130px);
+    padding: .5em;
+
+    vertical-align: middle;
+
+    border: solid 1px #aaa;
+    border-radius: 4px;
+    outline-color: #9dbbff;
+}
+
+textarea {
+    height: 8em;
+}
+
+input[type='submit'] {
+    font-size: 16px;
+    font-weight: bold;
+
+    width: 240px;
+    height: 48px;
+
+    color: white;
+    border: solid 1px #4397de;
+    border-radius: 4px;
+    background-color: #08f;
+}
+
+.items {
+    width: 680px;
+    margin: 0 auto;
+}
+
+.item {
+    margin-bottom: 8px;
+}
+
+.form-label {
+    text-align: right;
+}
+
+.memo {
+    text-align: center;
+}
+
+.error_message {
+    text-align: center;
+    color: tomato;
+
+    font-weight: bold;
+
+    margin: 30px 30px;
+    padding: 10px;
+}
+
+.button {
+    text-align: center;
+
+    margin: 30px 30px;
+    padding: 10px;
+}
+
+.button-link {
+    font-size: 16px;
+    font-weight: bold;
+
+    position: relative;
+    display: inline-block;
+    padding: 0.5em 6.5em;
+    text-decoration: none;
+    color: white;
+    border: solid 1px #4397de;
+    border-radius: 4px;
+    background: #08f;
+}

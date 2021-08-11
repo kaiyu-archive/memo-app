@@ -1,0 +1,20 @@
+<div class="new">
+  <form action="/memos" accept-charset="UTF-8" method="post">
+    <div class="items">
+      <div class="item">
+        <pre class="error_message"><%= @error_message %></pre>
+      </div>
+      <div class="item">
+        <label class="form-label">Title</label>
+        <input type="text" name="title">
+      </div>
+      <div class="item">
+        <label class="form-label">Description</label>
+        <textarea name="description"></textarea>
+      </div>
+    </div>
+    <div class="button">
+      <input type="submit" value="保存">
+    </div>
+  </form>
+</div>

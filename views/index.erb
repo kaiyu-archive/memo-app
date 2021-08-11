@@ -1,0 +1,16 @@
+<div class="index">
+  <div class="items">
+    <div class="button">
+      <a class="button-link" href="/memos/new">追加</a>
+    </div>
+    <div class="item">
+      <ul>
+        <% @memos.each do |memo| %>
+          <div class="item">
+            <li><a class="memo" href="/memos/<%= memo['id'].to_s %>/show"><%= memo['title'] %></a></li>
+          </div>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
