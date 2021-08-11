@@ -4,11 +4,13 @@ require 'sinatra'
 require 'json'
 require 'erb'
 
+DATA_FILE = './memo_app.json'
+
 def load_memo(id = nil)
   memos = []
 
-  if File.exist?('./memo_app.json')
-    File.open('./memo_app.json') do |file|
+  if File.exist?(DATA_FILE)
+    File.open(DATA_FILE) do |file|
       memos = JSON.parse(file.read)
     end
   end
@@ -21,7 +23,7 @@ def load_memo(id = nil)
 end
 
 def save_memo(memos)
-  File.open('./memo_app.json', 'w') do |file|
+  File.open(DATA_FILE, 'w') do |file|
     JSON.dump(memos, file)
   end
 end
@@ -33,7 +35,7 @@ def make_next_id(memos)
 end
 
 get '/' do
-  @title = 'all memos'
+  @title = 'All memos'
 
   @memos = load_memo
 
@@ -41,7 +43,7 @@ get '/' do
 end
 
 get '/memos/new' do
-  @title = 'new memo'
+  @title = 'New memo'
 
   @error_message = 'Titleを入力してください。' if params['error'] == 'title'
 
@@ -66,7 +68,7 @@ post '/memos' do
 end
 
 get '/memos/:id/show' do
-  @title = 'show memo'
+  @title = 'Show memo'
 
   @memo = load_memo(params['id'].to_i)
 
@@ -74,7 +76,7 @@ get '/memos/:id/show' do
 end
 
 get '/memos/:id/edit' do
-  @title = 'edit memo'
+  @title = 'Edit memo'
 
   @error_message = 'Titleを入力してください。' if params['error'] == 'title'
 
