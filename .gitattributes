@@ -1,3 +1,5 @@
+.gitattributes linguist-generated
+
 .gitignore linguist-generated
 
 Gemfile.lock linguist-generated
