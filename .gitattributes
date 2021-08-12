@@ -1,0 +1,9 @@
+.gitignore linguist-generated
+
+Gemfile.lock linguist-generated
+
+config.ru linguist-generated
+config/puma.rb linguist-generated
+
+.rubocop.yml linguist-generated
+config/rubocop.yml linguist-generated
