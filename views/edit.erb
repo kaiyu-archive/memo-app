@@ -6,11 +6,11 @@
       </div>
       <div class="item">
         <label class="form-label">Title</label>
-        <input type="text" name="title" value="<%= @memo['title'] %>">
+        <input type="text" name="title" value="<%= ERB::Util.html_escape(@memo['title']) %>">
       </div>
       <div class="item">
         <label class="form-label">Description</label>
-        <textarea name="description"><%= @memo['description'] %></textarea>
+        <textarea name="description"><%= ERB::Util.html_escape(@memo['description']) %></textarea>
       </div>
     </div>
     <div class="button">

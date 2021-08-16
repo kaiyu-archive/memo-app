@@ -2,10 +2,10 @@
   <div class="items">
     <div class="memo">
       <div class="item">
-        <h2><%= @memo['title'] %></h2>
+        <h2><%= ERB::Util.html_escape(@memo['title']) %></h2>
       </div>
       <div class="item">
-        <pre><%= @memo['description'] %></pre>
+        <pre><%= ERB::Util.html_escape(@memo['description']) %></pre>
       </div>
     </div>
     <div class="button">

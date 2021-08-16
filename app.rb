@@ -15,6 +15,9 @@ def load_memo(id = nil)
     end
   end
 
+  # idが整数で無い場合は不正なデータとして除外します。
+  memos.select! { |memo| memo['id'].instance_of?(Integer) }
+
   if id.nil?
     memos
   else
@@ -57,8 +60,8 @@ post '/memos' do
     memos = load_memo
     next_id = make_next_id(memos)
 
-    title = ERB::Util.html_escape(params['title'])
-    description = ERB::Util.html_escape(params['description'])
+    title = params['title']
+    description = params['description']
     memos << { 'id' => next_id, 'title' => title, 'description' => description }
 
     save_memo(memos)
@@ -92,8 +95,8 @@ post '/memos/:id' do
     memos = load_memo
 
     index = memos.index { |memo| memo['id'] == params['id'].to_i }
-    memos[index]['title'] = ERB::Util.html_escape(params['title'])
-    memos[index]['description'] = ERB::Util.html_escape(params['description'])
+    memos[index]['title'] = params['title']
+    memos[index]['description'] = params['description']
 
     save_memo(memos)
 
