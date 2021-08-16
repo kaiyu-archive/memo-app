@@ -70,7 +70,7 @@ post '/memos' do
   end
 end
 
-get '/memos/:id/show' do
+get '/memos/:id' do
   @title = 'Show memo'
 
   @memo = load_memo(params['id'].to_i)
@@ -88,7 +88,7 @@ get '/memos/:id/edit' do
   erb :edit
 end
 
-post '/memos/:id' do
+patch '/memos/:id' do
   if params['title'].empty?
     redirect to("/memos/#{params['id']}/edit?error=title")
   else
@@ -104,7 +104,7 @@ post '/memos/:id' do
   end
 end
 
-get '/memos/:id/delete' do
+delete '/memos/:id' do
   memos = load_memo
 
   memos.reject! { |memo| memo['id'] == params['id'].to_i }

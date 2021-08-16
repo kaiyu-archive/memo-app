@@ -1,5 +1,6 @@
 <div class="edit">
   <form action="/memos/<%= @memo['id'] %>" accept-charset="UTF-8" method="post">
+    <input id="hidden" type="hidden" name="_method" value="patch">
     <div class="items">
       <div class="item">
         <pre class="error_message"><%= @error_message %></pre>
