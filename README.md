@@ -16,6 +16,19 @@
 bundle install --path vendor/bundle
 ```
 
+以下のコマンドでpostgresqlをインストールして、DBを作成してください。
+
+```bash
+brew update
+brew install postgresql
+brew services restart postgresql
+
+createdb memo_app
+
+# DB を削除したい場合
+# dropdb memo_app
+```
+
 ## 起動
 
 以下のコマンドでWebアプリを起動してください。
