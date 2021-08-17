@@ -1,0 +1,19 @@
+<div class="show">
+  <form action="/memos/<%= @memo['id'] %>" method="post">
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <div class="items">
+      <div class="memo">
+        <div class="item">
+          <h2><%= ERB::Util.html_escape(@memo['title']) %></h2>
+        </div>
+        <div class="item">
+          <pre><%= ERB::Util.html_escape(@memo['description']) %></pre>
+        </div>
+      </div>
+      <div class="button">
+        <a class="button-link" href="/memos/<%= @memo['id'] %>/edit">変更</a>
+        <input type="submit" value="削除">
+      </div>
+    </div>
+  </form>
+</div>
