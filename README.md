@@ -26,7 +26,7 @@ brew services restart postgresql
 createdb memo_app
 
 # DB を削除したい場合
-# dropdb memo_app
+dropdb memo_app
 ```
 
 ## 起動
@@ -37,4 +37,4 @@ createdb memo_app
 bundle exec ruby app.rb
 ```
 
-そのあと、[http://127.0.0.1:4567]() にアクセスしてください。
+そのあと、[http://127.0.0.1:4567](http://127.0.0.1:4567) にアクセスしてください。
