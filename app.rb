@@ -41,7 +41,7 @@ class Database
 
   def exists_table?
     result = @connection.exec("SELECT EXISTS (SELECT * FROM information_schema.tables WHERE table_name = 'memo');").first
-    result['exists'] == 'f'
+    result['exists'] == 't'
   end
 
   def create_table
@@ -49,7 +49,7 @@ class Database
   end
 
   def initialize_db
-    create_table if exists_table?
+    create_table unless exists_table?
   end
 end
 
