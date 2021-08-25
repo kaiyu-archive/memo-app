@@ -3,44 +3,66 @@
 require 'sinatra'
 require 'json'
 require 'erb'
+require 'pg'
 
-DATA_FILE = './memo_app.json'
-
-def load_memo(id = nil)
-  memos = []
-
-  if File.exist?(DATA_FILE)
-    File.open(DATA_FILE) do |file|
-      memos = JSON.parse(file.read)
-    end
+class Database
+  def initialize
+    @connection = connect_db
+    initialize_db
   end
 
-  # idが整数で無い場合は不正なデータとして除外します。
-  memos.select! { |memo| memo['id'].instance_of?(Integer) }
+  def select_memos
+    @connection.exec('SELECT * FROM memo ORDER BY id;')
+  end
 
-  if id.nil?
-    memos
-  else
-    memos.detect { |memo| memo['id'] == id }
+  def select_memo(id)
+    @connection.exec_params('SELECT * FROM memo WHERE id = $1;', [id]).first
+  end
+
+  def insert_memo(title, description)
+    @connection.exec_params('INSERT INTO memo(title, description) values($1, $2);', [title, description])
+  end
+
+  def update_memo(id, title, description)
+    @connection.exec_params('UPDATE memo SET title = $1, description = $2 WHERE id = $3;', [title, description, id])
+  end
+
+  def delete_memo(id)
+    @connection.exec_params('DELETE FROM memo WHERE id = $1;', [id])
+  end
+
+  private
+
+  DB_NAME = 'memo_app'
+
+  def connect_db
+    PG.connect(dbname: DB_NAME)
+  end
+
+  def exists_table?
+    result = @connection.exec("SELECT EXISTS (SELECT * FROM information_schema.tables WHERE table_name = 'memo');").first
+    result['exists'] == 't'
+  end
+
+  def create_table
+    @connection.exec('CREATE TABLE memo(id serial NOT NULL PRIMARY KEY, title varchar(100) NOT NULL, description text);')
+  end
+
+  def initialize_db
+    create_table unless exists_table?
   end
 end
 
-def save_memo(memos)
-  File.open(DATA_FILE, 'w') do |file|
-    JSON.dump(memos, file)
-  end
+before do
+  @db = Database.new
 end
 
-def make_next_id(memos)
-  return 0 if memos.empty?
-
-  memos.map { |memo| memo['id'] }.max + 1
-end
+ERROR_BLANK_TITLE = 'Titleを入力してください。'
 
 get '/' do
   @title = 'All memos'
 
-  @memos = load_memo
+  @memos = @db.select_memos
 
   erb :index
 end
@@ -48,7 +70,7 @@ end
 get '/memos/new' do
   @title = 'New memo'
 
-  @error_message = 'Titleを入力してください。' if params['error'] == 'title'
+  @error_message = ERROR_BLANK_TITLE if params['error'] == 'title'
 
   erb :new
 end
@@ -57,14 +79,9 @@ post '/memos' do
   if params['title'].empty?
     redirect to('/memos/new?error=title')
   else
-    memos = load_memo
-    next_id = make_next_id(memos)
-
     title = params['title']
     description = params['description']
-    memos << { 'id' => next_id, 'title' => title, 'description' => description }
-
-    save_memo(memos)
+    @db.insert_memo(title, description)
 
     redirect '/'
   end
@@ -73,7 +90,7 @@ end
 get '/memos/:id' do
   @title = 'Show memo'
 
-  @memo = load_memo(params['id'].to_i)
+  @memo = @db.select_memo(params['id'].to_i)
 
   erb :show
 end
@@ -81,9 +98,9 @@ end
 get '/memos/:id/edit' do
   @title = 'Edit memo'
 
-  @error_message = 'Titleを入力してください。' if params['error'] == 'title'
+  @error_message = ERROR_BLANK_TITLE if params['error'] == 'title'
 
-  @memo = load_memo(params['id'].to_i)
+  @memo = @db.select_memo(params['id'].to_i)
 
   erb :edit
 end
@@ -92,24 +109,21 @@ patch '/memos/:id' do
   if params['title'].empty?
     redirect to("/memos/#{params['id']}/edit?error=title")
   else
-    memos = load_memo
-
-    index = memos.index { |memo| memo['id'] == params['id'].to_i }
-    memos[index]['title'] = params['title']
-    memos[index]['description'] = params['description']
-
-    save_memo(memos)
+    id = params['id'].to_i
+    title = params['title']
+    description = params['description']
+    @db.update_memo(id, title, description)
 
     redirect '/'
   end
 end
 
 delete '/memos/:id' do
-  memos = load_memo
-
-  memos.reject! { |memo| memo['id'] == params['id'].to_i }
-
-  save_memo(memos)
+  @db.delete_memo(params['id'].to_i)
 
   redirect '/'
+end
+
+not_found do
+  erb :not_found
 end
